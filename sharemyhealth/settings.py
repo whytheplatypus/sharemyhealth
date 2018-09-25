@@ -198,7 +198,8 @@ SOCIAL_AUTH_INSTAGRAM_SCOPE = ['likes', 'comments', 'relationships']
 
 SOCIAL_AUTH_GOOGLE_KEY = ''
 SOCIAL_AUTH_GOOGLE_SECRET =  '' 
-
+SOCIAL_AUTH_GOOGLE_OIDC_ENDPOINT = 'https://accounts.google.com'
+SOCIAL_AUTH_GOOGLE_URL = 'https://accounts.google.com'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  ''
