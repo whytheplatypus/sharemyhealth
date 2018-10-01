@@ -7,4 +7,3 @@ develop-logs:
 
 clean:
 	docker-compose -f .development/docker-compose.yml down
-	

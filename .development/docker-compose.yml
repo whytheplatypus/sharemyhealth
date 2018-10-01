@@ -9,7 +9,7 @@ services:
             - POSTGRES_PASSWORD=toor
     ports:
             - "5432:5432"
-  web:
+  smh:
     build:
             context: ../
             dockerfile: .development/Dockerfile
@@ -18,6 +18,8 @@ services:
             - DATABASES_CUSTOM=postgres://postgres:toor@db:5432/smh
             - OAUTHLIB_INSECURE_TRANSPORT=true
             - OIDC_ISSUER=http://localhost:8000
+            - ALLOWED_HOSTS=web,verifymyidentity,localhost
+
     volumes:
       - ../:/code
     ports:
