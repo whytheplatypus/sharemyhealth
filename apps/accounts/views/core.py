@@ -8,20 +8,10 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
-from ..forms import (RequestInviteForm, AccountSettingsForm,
-                     LoginForm,
-                     SignupForm)
-from ..models import *
-from ..utils import validate_activation_key
+from ..forms import (AccountSettingsForm, )
 from django.conf import settings
 
 logger = logging.getLogger('sharemyhealth_.%s' % __name__)
-
-
-def mylogout(request):
-    logout(request)
-    messages.success(request, _('You have been logged out.'))
-    return HttpResponseRedirect(reverse('home'))
 
 
 @login_required

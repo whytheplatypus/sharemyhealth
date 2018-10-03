@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider',
     'apps.home',
+    'apps.verifymyidentity',
     'apps.accounts',
-    
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
@@ -133,6 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGOUT_REDIRECT_URL = 'home'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -167,12 +169,11 @@ AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', 'change-me')
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.open_id.OpenIdAuth',
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
     'social_core.backends.instagram.InstagramOAuth2',
-    'apps.accounts.oidc_relying_party.VerifyMyIdentityOpenIdConnect',
+    'apps.verifymyidentity.authentication.SocialCoreOpenIdConnect',
     'django.contrib.auth.backends.ModelBackend',
 
 )
@@ -187,7 +188,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.mail.mail_validation',
     'social_core.pipeline.user.create_user',
-    #'apps.accounts.oauth_backends.pipeline.patient_id.save_profile',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.debug.debug',
     'social_core.pipeline.social_auth.load_extra_data',
@@ -195,27 +195,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.debug.debug'
 )
 
-
-
-SOCIAL_AUTH_INSTAGRAM_KEY = ''
-SOCIAL_AUTH_INSTAGRAM_SECRET = ''
-SOCIAL_AUTH_INSTAGRAM_SCOPE = ['likes', 'comments', 'relationships']
-
-
-SOCIAL_AUTH_GOOGLE_KEY = ''
-SOCIAL_AUTH_GOOGLE_SECRET =  '' 
-SOCIAL_AUTH_GOOGLE_OIDC_ENDPOINT = 'https://accounts.google.com'
-SOCIAL_AUTH_GOOGLE_URL = 'https://accounts.google.com'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  ''
-
-SOCIAL_AUTH_GOOGLE_OPENIDCONNECT_KEY = ''
-SOCIAL_AUTH_GOOGLE_OPENIDCONNECT_SECRET =  '' 
-
-
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = ''
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET =  '' 
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = 'xKdnYwdsJ14r1UuAigdglYnNUUje6yaigC7DEN6a'
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET =  'HsQPXraLpivRZE3kYbWobC3R6xtVHEgW9Fs8v3oeQPb4sF0r6ihyIXw8598IK0dvoYAmHsi88Lp20V8bxgF2KwIwrfqXDHYILl80OLXl4DFqvWtI0auwnA3KRiGWZz4Z' 
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SCOPE = ['openid', ]
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT = 'http://verifymyidentity:8001'
 
 LOGIN_REDIRECT_URL = 'home'
 

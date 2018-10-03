@@ -16,14 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
+from django.contrib.auth import views as auth_views
 from apps.home.views import authenticated_home
 
 urlpatterns = [
-
-    url('social-auth/', include('social_django.urls', namespace='social')),
-    url(r'^home/', include('apps.home.urls')),
-    url(r'^accounts/', include('apps.accounts.urls')),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('admin/', admin.site.urls),
-    url(r'', authenticated_home, name='home'),
+    url('social-auth/', include('social_django.urls', namespace='social')),
+    path('accounts/', include('apps.accounts.urls')),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    url(r'^home/', include('apps.home.urls')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('', authenticated_home, name='home'),
 ]
