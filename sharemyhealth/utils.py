@@ -24,4 +24,3 @@ def int_env(env_val):
     """ convert to integer from String """
 
     return int(Decimal(float(env_val)))
-

@@ -1,9 +1,5 @@
-from random import randint
-
 from django import forms
-from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -13,10 +9,10 @@ class AccountSettingsForm(forms.Form):
     first_name = forms.CharField(max_length=100, label=_('First Name'))
     last_name = forms.CharField(max_length=100, label=_('Last Name'))
     mobile_phone_number = forms.CharField(max_length=10, required=False,
-                                             help_text=_("US numbers only. "
-                                                         "We use this for "
-                                                         "multi-factor "
-                                                         "authentication."))
+                                          help_text=_("US numbers only. "
+                                                      "We use this for "
+                                                      "multi-factor "
+                                                      "authentication."))
     organization_name = forms.CharField(max_length=100,
                                         label=_('Organization Name'),
                                         required=False)

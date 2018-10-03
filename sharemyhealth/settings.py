@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import dj_database_url
 from django.contrib.messages import constants as messages
-from django.utils.translation import ugettext_lazy as _
 from getenv import env
 
 
@@ -32,7 +31,7 @@ SECRET_KEY = '@+ttixefm9-bu1eknb4k^5dj(f1z0^97b$zan9akdr^4s8cc54'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition
@@ -63,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 
@@ -102,8 +101,10 @@ WSGI_APPLICATION = 'sharemyhealth.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default=env('DATABASES_CUSTOM',
-                                                  'sqlite:///{}/db.sqlite3'.format(BASE_DIR))),
+    'default': dj_database_url.config(
+        default=env('DATABASES_CUSTOM',
+                    'sqlite:///{}/db.sqlite3'.format(BASE_DIR))
+    ),
 }
 
 MESSAGE_TAGS = {
@@ -120,16 +121,20 @@ MESSAGE_TAGS = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'UserAttributeSimilarityValidator')
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'MinimumLengthValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'CommonPasswordValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'NumericPasswordValidator'),
     },
 ]
 
@@ -195,11 +200,15 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.debug.debug'
 )
 
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = 'xKdnYwdsJ14r1UuAigdglYnNUUje6yaigC7DEN6a'
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET =  'HsQPXraLpivRZE3kYbWobC3R6xtVHEgW9Fs8v3oeQPb4sF0r6ihyIXw8598IK0dvoYAmHsi88Lp20V8bxgF2KwIwrfqXDHYILl80OLXl4DFqvWtI0auwnA3KRiGWZz4Z' 
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = env(
+    'SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY',
+    'sharemyhealth')
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET = env(
+    'SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET',
+    'sharemyhealth-secret-change-me')
 SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SCOPE = ['openid', ]
 SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_IGNORE_DEFAULT_SCOPE = True
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT = 'http://verifymyidentity:8001'
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT = 'http://verifymyidentity:8001'  # noqa
 
 LOGIN_REDIRECT_URL = 'home'
 
@@ -220,9 +229,9 @@ TOS_TITLE = env('DJANGO_TOS_TITLE', 'Terms of Service')
 TAG_LINE_1 = env('DJANGO_TAG_LINE_1', 'Share your health data')
 TAG_LINE_2 = env('DJANGO_TAG_LINE_2',
                  'with applications, organizations, and people you trust.')
-EXPLAINATION_LINE = 'This service allows Medicare beneficiaries to connect their health data to applications of their choosing.'
+EXPLAINATION_LINE = 'This service allows Medicare beneficiaries to connect their health data to applications of their choosing.'  # noqa
 EXPLAINATION_LINE = env('DJANGO_EXPLAINATION_LINE ', EXPLAINATION_LINE)
-USER_DOCS_URI ="https://abhealth.us"
+USER_DOCS_URI = "https://abhealth.us"
 USER_DOCS_TITLE = "User Documentation"
 USER_DOCS = "USer Docs"
 # LINKS TO DOCS
@@ -264,5 +273,3 @@ SETTINGS_EXPORT = [
     'DEVELOPER_DOCS',
     'USER_DOCS_TITLE',
 ]
-
-

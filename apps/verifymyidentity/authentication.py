@@ -1,5 +1,4 @@
 from social_core.backends.open_id_connect import OpenIdConnectAuth
-from social_core.backends.google import GoogleOAuth2
 
 __author__ = "Alan Viars"
 
