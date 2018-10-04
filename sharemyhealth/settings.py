@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import dj_database_url
 from django.contrib.messages import constants as messages
-from django.utils.translation import ugettext_lazy as _
 from getenv import env
 
 
@@ -32,7 +31,7 @@ SECRET_KEY = '@+ttixefm9-bu1eknb4k^5dj(f1z0^97b$zan9akdr^4s8cc54'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition
@@ -46,8 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider',
     'apps.home',
+    'apps.verifymyidentity',
     'apps.accounts',
-    
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
@@ -63,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 
@@ -102,8 +101,10 @@ WSGI_APPLICATION = 'sharemyhealth.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default=env('DATABASES_CUSTOM',
-                                                  'sqlite:///{}/db.sqlite3'.format(BASE_DIR))),
+    'default': dj_database_url.config(
+        default=env('DATABASES_CUSTOM',
+                    'sqlite:///{}/db.sqlite3'.format(BASE_DIR))
+    ),
 }
 
 MESSAGE_TAGS = {
@@ -120,18 +121,24 @@ MESSAGE_TAGS = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'UserAttributeSimilarityValidator')
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'MinimumLengthValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'CommonPasswordValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation.'
+                 'NumericPasswordValidator'),
     },
 ]
+
+LOGOUT_REDIRECT_URL = 'home'
 
 
 # Internationalization
@@ -167,12 +174,11 @@ AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', 'change-me')
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.open_id.OpenIdAuth',
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
     'social_core.backends.instagram.InstagramOAuth2',
-    'apps.accounts.oidc_relying_party.VerifyMyIdentityOpenIdConnect',
+    'apps.verifymyidentity.authentication.SocialCoreOpenIdConnect',
     'django.contrib.auth.backends.ModelBackend',
 
 )
@@ -187,7 +193,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.mail.mail_validation',
     'social_core.pipeline.user.create_user',
-    #'apps.accounts.oauth_backends.pipeline.patient_id.save_profile',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.debug.debug',
     'social_core.pipeline.social_auth.load_extra_data',
@@ -195,27 +200,15 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.debug.debug'
 )
 
-
-
-SOCIAL_AUTH_INSTAGRAM_KEY = ''
-SOCIAL_AUTH_INSTAGRAM_SECRET = ''
-SOCIAL_AUTH_INSTAGRAM_SCOPE = ['likes', 'comments', 'relationships']
-
-
-SOCIAL_AUTH_GOOGLE_KEY = ''
-SOCIAL_AUTH_GOOGLE_SECRET =  '' 
-SOCIAL_AUTH_GOOGLE_OIDC_ENDPOINT = 'https://accounts.google.com'
-SOCIAL_AUTH_GOOGLE_URL = 'https://accounts.google.com'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  ''
-
-SOCIAL_AUTH_GOOGLE_OPENIDCONNECT_KEY = ''
-SOCIAL_AUTH_GOOGLE_OPENIDCONNECT_SECRET =  '' 
-
-
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = ''
-SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET =  '' 
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY = env(
+    'SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_KEY',
+    'sharemyhealth')
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET = env(
+    'SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SECRET',
+    'sharemyhealth-secret-change-me')
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_SCOPE = ['openid', ]
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT = 'http://verifymyidentity:8001'  # noqa
 
 LOGIN_REDIRECT_URL = 'home'
 
@@ -236,9 +229,9 @@ TOS_TITLE = env('DJANGO_TOS_TITLE', 'Terms of Service')
 TAG_LINE_1 = env('DJANGO_TAG_LINE_1', 'Share your health data')
 TAG_LINE_2 = env('DJANGO_TAG_LINE_2',
                  'with applications, organizations, and people you trust.')
-EXPLAINATION_LINE = 'This service allows Medicare beneficiaries to connect their health data to applications of their choosing.'
+EXPLAINATION_LINE = 'This service allows Medicare beneficiaries to connect their health data to applications of their choosing.'  # noqa
 EXPLAINATION_LINE = env('DJANGO_EXPLAINATION_LINE ', EXPLAINATION_LINE)
-USER_DOCS_URI ="https://abhealth.us"
+USER_DOCS_URI = "https://abhealth.us"
 USER_DOCS_TITLE = "User Documentation"
 USER_DOCS = "USer Docs"
 # LINKS TO DOCS
@@ -280,5 +273,3 @@ SETTINGS_EXPORT = [
     'DEVELOPER_DOCS',
     'USER_DOCS_TITLE',
 ]
-
-
