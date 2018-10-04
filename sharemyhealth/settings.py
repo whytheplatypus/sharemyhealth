@@ -240,14 +240,16 @@ DEVELOPER_DOCS_TITLE = "Developer Documentation"
 DEVELOPER_DOCS = "Developer Docs"
 DEFAULT_DISCLOSURE_TEXT = """
     This system may be monitored, recorded and
-    subject to audit. Improper use of this system or its data may result in civil and criminal penalties. 
+    subject to audit. Improper use of this system or
+    its data may result in civil and criminal penalties.
     """
 
 DISCLOSURE_TEXT = env('DJANGO_PRIVACY_POLICY_URI', DEFAULT_DISCLOSURE_TEXT)
 
 HOSTNAME_URL = env('HOSTNAME_URL', 'http://localhost:8000')
 
-VMI_SIGNUP_URL = env('VMI_SIGNUP_URL', 'http://localhost:8000/accounts/create-account')
+VMI_SIGNUP_URL = env(
+    'VMI_SIGNUP_URL', 'http://localhost:8000/accounts/create-account')
 
 SETTINGS_EXPORT = [
     'DEBUG',
