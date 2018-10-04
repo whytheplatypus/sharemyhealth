@@ -22,13 +22,12 @@
                     <h2>Welcome</h2>
                     <p>Welcome to the {{ settings.APPLICATION_TITLE }}</p>
      
-    
        
-                    <a href="{{settings.USER_DOCS}}">
-                                    <button type="button" class="btn btn-primary"> <i class="fa fa-map"></i> {{settings.USER_DOCS_TITLE}} </button></a>
+                    <a href="{% url "social:begin" "verifymyidentity-openidconnect" %}">
+                                    <button type="button" class="btn btn-primary"> <i class="fa fa-sign-in"></i> Login</button></a>
                     
-                      <a {{settings.DEVELOPER_DOCS}}">
-                    <button type="button" class="btn btn-primary"> <i class="fa fa-gears"></i> {{settings.DEVELOPER_DOCS_TITLE}}</button></a>
+                <a href="{{settings.VMI_SIGNUP_URL}}">
+                    <button type="button" class="btn btn-primary"> <i class="fa fa-plus"></i> Signup</button></a>
                 
                 </div>
                 

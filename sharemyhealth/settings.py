@@ -239,16 +239,15 @@ DEVELOPER_DOCS_URI = "https:/abhealth.us"
 DEVELOPER_DOCS_TITLE = "Developer Documentation"
 DEVELOPER_DOCS = "Developer Docs"
 DEFAULT_DISCLOSURE_TEXT = """
-    Unauthorized or improper use of this
-    system or its data may result in disciplinary action, as well as civil
-    and criminal penalties. This system may be monitored, recorded and
-    subject to audit.
+    This system may be monitored, recorded and
+    subject to audit. Improper use of this system or its data may result in civil and criminal penalties. 
     """
 
 DISCLOSURE_TEXT = env('DJANGO_PRIVACY_POLICY_URI', DEFAULT_DISCLOSURE_TEXT)
 
 HOSTNAME_URL = env('HOSTNAME_URL', 'http://localhost:8000')
 
+VMI_SIGNUP_URL = env('VMI_SIGNUP_URL', 'http://localhost:8000/accounts/create-account')
 
 SETTINGS_EXPORT = [
     'DEBUG',
@@ -272,4 +271,5 @@ SETTINGS_EXPORT = [
     'USER_DOCS',
     'DEVELOPER_DOCS',
     'USER_DOCS_TITLE',
+    'VMI_SIGNUP_URL',
 ]
