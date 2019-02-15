@@ -70,6 +70,11 @@ def build_endpoint_info(data=OrderedDict(), issuer=""):
         data["grant_types_supported"].append(i[0])
     data["grant_types_supported"].append("refresh_token")
     data["response_types_supported"] = ["code", "token"]
+    data['call_member'] = settings.CALL_MEMBER
+    data['call_member_plural'] = settings.CALL_MEMBER
+    data['call_organization'] = settings.CALL_ORGANIZATION
+    data['call_organization_plural'] = settings.CALL_ORGANIZATION_PLURAL
+
     # data["fhir_metadata_uri"] = issuer + \
     #    reverse('fhir_conformance_metadata')
     return data
