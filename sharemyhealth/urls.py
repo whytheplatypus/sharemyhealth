@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^home/', include('apps.home.urls')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^.well-known/', include('apps.wellknown.urls')),
     path('', authenticated_home, name='home'),
 ]
