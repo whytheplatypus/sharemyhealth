@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.wellknown',
     'apps.verifymyidentity',
     'apps.accounts',
+    'apps.api',  # Dummy CDA App for now
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
