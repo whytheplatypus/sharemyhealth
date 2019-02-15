@@ -23,7 +23,7 @@ class OpenIDConnectConfigurationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response, reverse('oauth2_provider:token'))
-        self.assertContains(response, reverse('openid_connect_userinfo'))
+        self.assertContains(response, reverse('user_profile'))
         self.assertContains(response, "response_types_supported")
         self.assertContains(response, getattr(settings, 'HOSTNAME_URL'))
         response_content = response.content
