@@ -14,7 +14,7 @@ import os
 import dj_database_url
 from django.contrib.messages import constants as messages
 from getenv import env
-
+from django.utils.translation import ugettext_lazy as _
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider',
     'apps.home',
+    'apps.wellknown',
     'apps.verifymyidentity',
     'apps.accounts',
+    'apps.api',  # Dummy CDA App for now
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
@@ -256,6 +258,24 @@ VMI_SIGNUP_URL = "%s/accounts/create-account/%s/?next=%s" % \
                   APPLICATION_TITLE,
                   HOSTNAME_URL)
 
+# DOT +
+GRANT_AUTHORIZATION_CODE = "authorization-code"
+GRANT_IMPLICIT = "implicit"
+# GRANT_PASSWORD = "password"
+# GRANT_CLIENT_CREDENTIALS = "client-credentials"
+GRANT_TYPES = (
+    (GRANT_AUTHORIZATION_CODE, _("Authorization code")),
+    # (GRANT_IMPLICIT, _("Implicit")),
+    # (GRANT_PASSWORD, _("Resource owner password-based")),
+    # (GRANT_CLIENT_CREDENTIALS, _("Client credentials")),
+)
+
+
+CALL_MEMBER = "member"
+CALL_MEMBER_PLURAL = "members"
+CALL_ORGANIZATION = "organization"
+CALL_ORGANIZATION_PLURAL = "organizations"
+
 SETTINGS_EXPORT = [
     'DEBUG',
     'ALLOWED_HOSTS',
@@ -279,4 +299,8 @@ SETTINGS_EXPORT = [
     'DEVELOPER_DOCS',
     'USER_DOCS_TITLE',
     'VMI_SIGNUP_URL',
+    'CALL_MEMBER',
+    'CALL_MEMBER_PLURAL',
+    'CALL_ORGANIZATION',
+    'CALL_ORGANIZATION_PLURAL'
 ]
