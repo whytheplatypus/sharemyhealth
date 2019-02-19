@@ -2,19 +2,16 @@ from collections import OrderedDict
 # from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import authentication, permissions, renderers
+from rest_framework import (
+    renderers,
+)
 from rest_framework_xml.renderers import XMLRenderer
 
 import os
 
 
 class CDAExample(APIView):
-    """
-    View to list all users in the system.
 
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
     # authentication_classes = (authentication.TokenAuthentication,)
     renderer_classes = (renderers.BrowsableAPIRenderer, renderers.JSONRenderer, XMLRenderer, )
 
@@ -28,7 +25,4 @@ class CDAExample(APIView):
         return data
 
     def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
         return Response(self.get_data())
