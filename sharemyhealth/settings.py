@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'apps.verifymyidentity',
     'apps.accounts',
     'apps.api',  # Dummy CDA App for now
+    'apps.fhirproxy',
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
@@ -276,6 +277,17 @@ CALL_MEMBER = "member"
 CALL_MEMBER_PLURAL = "members"
 CALL_ORGANIZATION = "organization"
 CALL_ORGANIZATION_PLURAL = "organizations"
+
+# FHIR Server to Proxy (Default) - with trailing slash
+
+DEFAULT_FHIR_SERVER = "http://fhir-test.sharemy.health:8080/fhir/baseDstu3/"
+
+FHIR_RESOURCES_SUPPORTED = ('Patient', 'Observation', 'Condition', 'Medication',
+                            'MedicationStatement', 'MedicationOrder',
+                            'AllergyIntolerance', 'DiagnosticReport',
+                            'Procedure', 'CarePlan', 'Immunization',
+                            'Device', 'Goal', 'Coverage', 'ExplanationOfBenefit')
+
 
 SETTINGS_EXPORT = [
     'DEBUG',
