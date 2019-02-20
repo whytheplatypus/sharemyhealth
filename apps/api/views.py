@@ -13,7 +13,8 @@ import os
 class CDAExample(APIView):
 
     # authentication_classes = (authentication.TokenAuthentication,)
-    renderer_classes = (renderers.BrowsableAPIRenderer, renderers.JSONRenderer, XMLRenderer, )
+    renderer_classes = (renderers.BrowsableAPIRenderer,
+                        renderers.JSONRenderer, XMLRenderer, )
 
     def get_data(self):
         data = OrderedDict()
@@ -26,4 +27,3 @@ class CDAExample(APIView):
 
     def get(self, request, format=None):
         return Response(self.get_data())
-
