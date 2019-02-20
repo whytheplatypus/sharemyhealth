@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^.well-known/', include('apps.wellknown.urls')),
     url(r'^api/', include('apps.api.urls')),
+    url(r'^fhir/', include('apps.fhirproxy.urls')),
     path('', authenticated_home, name='home'),
 ]
