@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.wellknown',
     'apps.verifymyidentity',
     'apps.accounts',
+    'apps.testclient',
     'apps.api',  # Dummy CDA App for now
     'apps.fhirproxy',
     # 3rd Party ---------------------
@@ -253,7 +254,7 @@ DEFAULT_DISCLOSURE_TEXT = """
 
 DISCLOSURE_TEXT = env('DJANGO_PRIVACY_POLICY_URI', DEFAULT_DISCLOSURE_TEXT)
 
-HOSTNAME_URL = env('HOSTNAME_URL', 'http://sharemyhealth:8000')
+HOSTNAME_URL = env('HOSTNAME_URL', 'http://sharemyhealth:8001')
 
 VMI_SIGNUP_URL = "%s/accounts/create-account/%s/?next=%s" % \
                  (SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT,
