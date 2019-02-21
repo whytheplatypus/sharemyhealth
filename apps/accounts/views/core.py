@@ -3,10 +3,18 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from ..forms import AccountSettingsForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth import logout
 
-from ..forms import (AccountSettingsForm, )
 
 logger = logging.getLogger('sharemyhealth_.%s' % __name__)
+
+
+def my_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('home'))
 
 
 @login_required
