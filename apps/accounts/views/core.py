@@ -12,11 +12,6 @@ from django.contrib.auth import logout
 logger = logging.getLogger('sharemyhealth_.%s' % __name__)
 
 
-def my_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('home'))
-
-
 @login_required
 def account_settings(request):
     name = _('Account Settings')
