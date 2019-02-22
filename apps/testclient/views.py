@@ -61,7 +61,7 @@ def callback(request):
         reverse('oauth_authorization_server')
 
     response['fhir_metadata_uri'] = host + \
-        reverse('fhir_conformance_metadata')
+        reverse('fhir_metadata_uri')
 
     response['test_page'] = host + reverse('test_links')
     return success(request, response)

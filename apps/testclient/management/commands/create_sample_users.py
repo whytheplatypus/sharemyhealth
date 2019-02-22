@@ -1,9 +1,8 @@
 from django.contrib.auth.models import Group
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from apps.accounts.models import UserProfile
-from apps.fhir.bluebutton.models import Crosswalk
-from apps.fhir.bluebutton.utils import get_resourcerouter
+from apps.fhirproxy.models import Crosswalk
 import csv
 
 
@@ -18,7 +17,7 @@ def create_group(name="BlueButton"):
 
 
 def create_user(group, row):
-
+    User = get_user_model()
     if User.objects.filter(username=row["username"]).exists():
         User.objects.filter(username=row["username"]).delete()
 
@@ -27,20 +26,11 @@ def create_user(group, row):
                                  last_name=row["last_name"],
                                  email=row["email"],
                                  password=row["password"])
-    UserProfile.objects.create(user=u,
-                               user_type=row["user_type"],
-                               create_applications=True,
-                               password_reset_question_1='1',
-                               password_reset_answer_1='blue',
-                               password_reset_question_2='2',
-                               password_reset_answer_2='Frank',
-                               password_reset_question_3='3',
-                               password_reset_answer_3='Bentley')
+    UserProfile.objects.create(user=u)
 
     u.groups.add(group)
     c, g_o_c = Crosswalk.objects.get_or_create(user=u,
-                                               fhir_id=row["patient"],
-                                               fhir_source=get_resourcerouter())
+                                               fhir_id=row["patient"])
     return u
 
 

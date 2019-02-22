@@ -1,1 +1,68 @@
-[{"model": "server.resourcerouter", "pk": 1, "fields": {"name": "HHS IDEA Lab Sandbox[Default]", "server_address": "https://fhir.backend.bluebutton.hhsdevcloud.us", "server_path": "/", "server_release": "v1/fhir/", "server_search_expiry": 1800, "fhir_url": "https://fhir.backend.bluebutton.hhsdevcloud.us/v1/fhir/", "shard_by": "Patient", "client_auth": true, "cert_file": "./ca.cert.pem", "key_file": "./ca.key.nocrypt.pem", "server_verify": false, "wait_time": 30, "supported_resource": [1, 2, 3]}}, {"model": "server.supportedresourcetype", "pk": 1, "fields": {"resource_name": "Patient", "fhir_source": 1, "resourceType": "Patient", "secure_access": true, "json_schema": "{}", "get": true, "read": true, "vread": true, "history": true, "search": true, "put": false, "create": false, "update": false, "patch": false, "delete": false, "override_url_id": true, "override_search": false, "search_block": "Patient, patient", "search_add": ""}}, {"model": "server.supportedresourcetype", "pk": 2, "fields": {"resource_name": "Coverage", "fhir_source": 1, "resourceType": "Coverage", "secure_access": true, "json_schema": "{}", "get": true, "read": true, "vread": true, "history": true, "search": true, "put": false, "create": false, "update": false, "patch": false, "delete": false, "override_url_id": false, "override_search": false, "search_block": "Patient, patient", "search_add": "beneficiary=Patient/%PATIENT%"}}, {"model": "server.supportedresourcetype", "pk": 3, "fields": {"resource_name": "ExplanationOfBenefit", "fhir_source": 1, "resourceType": "ExplanationOfBenefit", "secure_access": true, "json_schema": "{}", "get": true, "read": true, "vread": true, "history": true, "search": true, "put": false, "create": false, "update": false, "patch": false, "delete": false, "override_url_id": false, "override_search": true, "search_block": "patient, Patient", "search_add": "patient=%PATIENT%"}}]
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$N1k1xriNBxsi$CNHUhKsgIK9fcwRYoJQhEehhB7gCb41X1I7k9zSiBnA=",
+        "last_login": "2019-02-21T18:12:42.175Z",
+        "is_superuser": true,
+        "username": "alan",
+        "first_name": "",
+        "last_name": "",
+        "email": "alan",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-02-21T16:08:42.999Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "!ESPhGEbSRK6385i3eD58tffbH9jTPBX9NMy5xBEh",
+        "last_login": "2019-02-21T18:19:57.548Z",
+        "is_superuser": false,
+        "username": "alan9f994dfed8a04ceb",
+        "first_name": "Alan",
+        "last_name": "",
+        "email": "alan@videntity.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-02-21T18:12:22.952Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "fhirproxy.crosswalk",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "fhir_source": "http://fhir-test.sharemy.health:8080/fhir/baseDstu3/",
+        "fhir_patient_id": "2",
+        "date_created": "2019-02-21T17:07:46.923Z",
+        "user_identifier": "A12345V",
+        "user_id_type": "CIN",
+        "user_id_hash": "",
+        "created_at": "2019-02-21T17:07:46.923Z",
+        "updated_at": "2019-02-21T17:07:46.923Z"
+    }
+},
+{
+    "model": "fhirproxy.crosswalk",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "fhir_source": "http://fhir-test.sharemy.health:8080/fhir/baseDstu3/",
+        "fhir_patient_id": "131",
+        "date_created": "2019-02-21T18:14:16.223Z",
+        "user_identifier": "A12345A",
+        "user_id_type": "CIN",
+        "user_id_hash": "",
+        "created_at": "2019-02-21T18:14:16.223Z",
+        "updated_at": "2019-02-21T18:14:16.223Z"
+    }
+}
+]
