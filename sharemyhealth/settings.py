@@ -289,8 +289,7 @@ FHIR_RESOURCES_SUPPORTED = ('Patient', 'Observation', 'Condition', 'Medication',
                             'Procedure', 'CarePlan', 'Immunization',
                             'Device', 'Goal', 'Coverage', 'ExplanationOfBenefit')
 
-DEFAULT_SAMPLE_FHIR_ID = "2"
-OFFLINE = True
+DEFAULT_SAMPLE_FHIR_ID = "472"
 
 
 SETTINGS_EXPORT = [
