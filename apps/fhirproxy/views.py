@@ -30,6 +30,17 @@ FHIR_RESOURCE_TO_ID_MAP['Coverage'] = ""
 
 
 @require_GET
+def fhir_metadata_endpoint(request):
+    fhir_endpoint = "%s%s" % (settings.DEFAULT_FHIR_SERVER, "metadata")
+    # print(fhir_endpoint)
+    r = requests.get(fhir_endpoint)
+    t = r.text
+    d = json.loads(t, object_pairs_hook=OrderedDict)
+    # print(d["resourceType"])
+    return JsonResponse(d)
+
+
+@require_GET
 @protected_resource()
 def fhir_endpoint_with_id(request, fhir_resource, id):
 
@@ -44,11 +55,11 @@ def fhir_endpoint_with_id(request, fhir_resource, id):
             raise Http404
     fhir_endpoint = "%s%s/%s" % (cw.fhir_source, fhir_resource, id)
 
-    print(fhir_endpoint)
+    # print(fhir_endpoint)
     r = requests.get(fhir_endpoint)
     t = r.text
     d = json.loads(t, object_pairs_hook=OrderedDict)
-    print(d["resourceType"])
+    # print(d["resourceType"])
     if d["resourceType"] == "OperationalOutcome":
         return JsonResponse(d)
 

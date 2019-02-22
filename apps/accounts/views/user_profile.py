@@ -5,12 +5,13 @@ from oauth2_provider.decorators import protected_resource
 from django.contrib.auth.decorators import login_required
 from collections import OrderedDict
 from django.conf import settings
-
+from ...fhirproxy.models import Crosswalk
 
 # TODO: include IAL from upstream IDP.
 # TO DO: Include the contents of document and address from upstream IDP
 
 # TODO: Must sort the crosswalk and document IDs.
+
 
 def get_userprofile(user):
     """
@@ -22,6 +23,7 @@ def get_userprofile(user):
     data['given_name'] = user.first_name
     data['family_name'] = user.last_name
     data['email'] = user.email
+    data['patient'] = get_fhir_id(user)
     data['iat'] = user.date_joined
     data['call_member'] = settings.CALL_MEMBER
     data['call_member_plural'] = settings.CALL_MEMBER
@@ -48,6 +50,7 @@ def oidc_userprofile_test(request):
     data['given_name'] = user.first_name
     data['family_name'] = user.last_name
     data['email'] = user.email
+    data['patient'] = get_fhir_id(user)
     data['iat'] = user.date_joined
     data['call_member'] = settings.CALL_MEMBER
     data['call_member_plural'] = settings.CALL_MEMBER
@@ -70,10 +73,10 @@ def oidc_userprofile(request):
 
 
 # TODO Work out crosswalk.
-# def get_fhir_id(user):
-#
-#     r = None
-#     if Crosswalk.objects.filter(user=user).exists():
-#         c = Crosswalk.objects.get(user=user)
-#         r = c.fhir_id
-#     return r
+def get_fhir_id(user):
+
+    r = None
+    if Crosswalk.objects.filter(user=user).exists():
+        c = Crosswalk.objects.get(user=user)
+        r = c.fhir_patient_id
+    return r

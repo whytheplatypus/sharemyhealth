@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from ..forms import AccountSettingsForm
 
-from ..forms import (AccountSettingsForm, )
 
 logger = logging.getLogger('sharemyhealth_.%s' % __name__)
 

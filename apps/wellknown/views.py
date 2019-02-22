@@ -1,5 +1,5 @@
 import logging
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.http import require_GET
 from collections import OrderedDict
 from django.conf import settings
@@ -16,6 +16,10 @@ def oauth_authorization_server(request):
     issuer = base_issuer(request)
     data = build_endpoint_info(data, issuer=issuer)
     return JsonResponse(data)
+
+
+def openid_configuration(request):
+    return HttpResponseRedirect(reverse('oauth_authorization_server'))
 
 
 def base_issuer(request):
@@ -70,6 +74,7 @@ def build_endpoint_info(data=OrderedDict(), issuer=""):
         data["grant_types_supported"].append(i[0])
     data["grant_types_supported"].append("refresh_token")
     data["response_types_supported"] = ["code", "token"]
+    data["fhir_metadata_uri"] = issuer + reverse('fhir_metadata_uri')
     data['call_member'] = settings.CALL_MEMBER
     data['call_member_plural'] = settings.CALL_MEMBER
     data['call_organization'] = settings.CALL_ORGANIZATION
