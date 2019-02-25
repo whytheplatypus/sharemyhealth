@@ -35,6 +35,7 @@ def fhir_metadata_endpoint(request):
     # print(fhir_endpoint)
     r = requests.get(fhir_endpoint)
     t = r.text
+    t = replace_fhir_refrences(t)
     d = json.loads(t, object_pairs_hook=OrderedDict)
     # print(d["resourceType"])
     return JsonResponse(d)
@@ -58,6 +59,7 @@ def fhir_endpoint_with_id(request, fhir_resource, id):
     # print(fhir_endpoint)
     r = requests.get(fhir_endpoint)
     t = r.text
+    t = replace_fhir_refrences(t, back=cw.fhir_source)
     d = json.loads(t, object_pairs_hook=OrderedDict)
     # print(d["resourceType"])
     if d["resourceType"] == "OperationalOutcome":
@@ -104,6 +106,7 @@ def fhir_endpoint_search(request, fhir_resource):
 
     r = requests.get(fhir_endpoint, params=clean_get_params)
     t = r.text
+    t = replace_fhir_refrences(t, back=cw.fhir_source)
     d = json.loads(t, object_pairs_hook=OrderedDict)
 
     if d["resourceType"] == "OperationOutcome":
@@ -154,3 +157,8 @@ def patient_search_not_allowed_response():
         ('diagnostics', 'Patient search is not allowed on this server'),
     ))
     return oo_response
+
+
+def replace_fhir_refrences(text, back=settings.DEFAULT_FHIR_SERVER, front=settings.DEFAULT_OUT_FHIR_SERVER):
+    text = text.replace(back[:-1], front)
+    return text

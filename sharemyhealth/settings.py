@@ -282,6 +282,8 @@ CALL_ORGANIZATION_PLURAL = "organizations"
 # FHIR Server to Proxy (Default) - with trailing slash
 
 DEFAULT_FHIR_SERVER = "http://fhir-test.sharemy.health:8080/fhir/baseDstu3/"
+DEFAULT_OUT_FHIR_SERVER = HOSTNAME_URL + "/fhir/baseDstu3"
+
 
 FHIR_RESOURCES_SUPPORTED = ('Patient', 'Observation', 'Condition', 'Medication',
                             'MedicationStatement', 'MedicationOrder',
