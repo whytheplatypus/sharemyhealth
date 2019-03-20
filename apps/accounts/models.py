@@ -30,6 +30,8 @@ class UserProfile(models.Model):
         help_text='Nickname, alias, or other names used.')
     email_verified = models.BooleanField(default=False, blank=True)
     phone_verified = models.BooleanField(default=False, blank=True)
+    picture_url = models.CharField(blank=True, default="", max_length=1024,
+                                   help_text=_('A public URL to a profile picture'))
     mobile_phone_number = models.CharField(max_length=25, blank=True, default="",
                                            help_text=_('US numbers only.'),)
     mobile_phone_number_verified = models.BooleanField(
@@ -47,6 +49,13 @@ class UserProfile(models.Model):
                                        max_length=3, default="U",
                                        help_text=_('Gender Identity'),
                                        )
+
+    identity_assurance_level = models.CharField(choices=(('1', '1'), ('2', '2'), ('3', '3')),
+                                                max_length=1, default="1",
+                                                help_text=_(
+                                                    'Identity Assurance Level'),
+                                                )
+
     birth_date = models.DateField(blank=True, null=True)
     most_recent_id_token_payload = models.TextField(
         blank=True, default="", max_length=4096)
