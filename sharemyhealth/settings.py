@@ -171,7 +171,7 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collectedstatic')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-APPLICATION_TITLE = "Share My Health"
+APPLICATION_TITLE = "HIXNY FHIR Server"
 
 # AWS Credentials need to support SES, SQS and SNS
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', 'change-me')
@@ -199,9 +199,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.mail.mail_validation',
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.debug.debug',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
+    'apps.accounts.pipeline.oidc.save_profile',
     'social_core.pipeline.debug.debug'
 )
 
@@ -217,13 +217,14 @@ SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT = env(
     'SOCIAL_AUTH_VERIFYMYIDENTITY_OPENIDCONNECT_OIDC_ENDPOINT',
     'http://localhost:8000')
 
+DATE_INPUT_FORMATS = ['%Y-%m-%d']  # , '%d-%m-%Y']
 
 LOGIN_REDIRECT_URL = 'home'
 
 EXTERNAL_AUTH_NAME = "Google"
 
 APPLICATION_TITLE = env('DJANGO_APPLICATION_TITLE',
-                        'Share My Health')
+                        'HIXNY OAuth2 Provider')
 ORGANIZATION_TITLE = env(
     'DJANGO_ORGANIZATION_TITLE',
     'Alliance for Better Health')
