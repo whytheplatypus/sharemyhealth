@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 __author__ = "Alan Viars"
 
 
-SEX_CHOICES = (('M', 'Male'), ('F', 'Female'), ('U', 'Unknown'))
+SEX_CHOICES = (('male', 'Male'), ('female', 'Female'), ('', 'Unknown'))
 
 GENDER_CHOICES = (('M', 'Male'),
                   ('F', 'Female'),
@@ -32,7 +32,6 @@ class UserProfile(models.Model):
     phone_verified = models.BooleanField(default=False, blank=True)
     mobile_phone_number = models.CharField(max_length=25, blank=True, default="",
                                            help_text=_('US numbers only.'),)
-
     mobile_phone_number_verified = models.BooleanField(
         blank=True, default=False)
 
@@ -40,13 +39,13 @@ class UserProfile(models.Model):
         max_length=4, blank=True, default="",
         help_text=_('If populated, this field must contain exactly four numbers.'),)
 
-    sex = models.CharField(choices=SEX_CHOICES,
-                           max_length=1, default="U",
-                           help_text=_('Sex'),
-                           )
+    gender = models.CharField(choices=SEX_CHOICES,
+                              max_length=1, default="",
+                              help_text=_('Birth Sex Gender'),
+                              )
     gender_identity = models.CharField(choices=GENDER_CHOICES,
                                        max_length=3, default="U",
-                                       help_text=_('Gender / Gender Identity'),
+                                       help_text=_('Gender Identity'),
                                        )
     birth_date = models.DateField(blank=True, null=True)
     most_recent_id_token_payload = models.TextField(
@@ -92,8 +91,8 @@ class UserProfile(models.Model):
         return self.subject
 
     @property
-    def gender(self):
-        return self.sex
+    def sex(self):
+        return self.gender
 
     @property
     def birthdate(self):
