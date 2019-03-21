@@ -4,15 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class AccountSettingsForm(forms.Form):
-    username = forms.CharField(max_length=30, label=_('User Name'))
-    email = forms.CharField(max_length=30, label=_('Email'))
-    first_name = forms.CharField(max_length=100, label=_('First Name'))
-    last_name = forms.CharField(max_length=100, label=_('Last Name'))
-    mobile_phone_number = forms.CharField(max_length=10, required=False,
-                                          help_text=_("US numbers only. "
-                                                      "We use this for "
-                                                      "multi-factor "
-                                                      "authentication."))
+    username = forms.CharField(max_length=30, label=_('User Name'), disabled=True)
+    email = forms.CharField(max_length=30, label=_('Email'), disabled=True)
+    first_name = forms.CharField(max_length=100, label=_('First Name'), disabled=True)
+    last_name = forms.CharField(max_length=100, label=_('Last Name'), disabled=True)
+    mobile_phone_number = forms.CharField(max_length=10, required=False, disabled=True)
     organization_name = forms.CharField(max_length=100,
                                         label=_('Organization Name'),
                                         required=False)
