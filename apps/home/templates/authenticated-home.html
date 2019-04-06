@@ -31,9 +31,20 @@
 {% ifequal id_token_payload.ial  "1" %}
 <p>Your identity assurance level of <span class="label label-default">{{ id_token_payload.ial }} </span> is insufficient
 to gain access you personal health information (PHI). You will need to
-verify you identity before you can gain full access. Please see your point of contact to completee this step.
+verify your identity before you can gain full access. Please see your point of contact to complete this step.
+
+{% else%}
+
+<a href="/hixny/get-authorization">Get my data from the Health Information Exchange of New York (HIXNY)</a>
 
 {% endifequal %}
+
+
+
+
+
+
+
 
    
          <div class="col-lg-12">
@@ -62,7 +73,7 @@ The id_token is :
 
     The id_token's payload is:
     
-				<pre>{{id_token_payload }}
+				{{id_token_payload }}
 
 				</div>
 	    </div>
