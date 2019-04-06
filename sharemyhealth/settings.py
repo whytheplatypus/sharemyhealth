@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'apps.testclient',
     'apps.api',  # Dummy CDA App for now
     'apps.fhirproxy',
+    'apps.hixny',
     # 3rd Party ---------------------
     'corsheaders',
     'bootstrapform',
@@ -323,3 +324,18 @@ SETTINGS_EXPORT = [
     'CALL_ORGANIZATION',
     'CALL_ORGANIZATION_PLURAL'
 ]
+
+
+HIXNY_TOKEN_API_URI = env('HIXNY_TOKEN_API_URI',
+                          'https://integration.hixny.com:6443/')
+HIXNY_PATIENT_API_URI = env('HIXNY_PATIENT_API_URI',
+                            'https://integration.hixny.com:5443')
+HIXNY_PHRREGISTER_API_URI = "%s/PHRREGISTER" % (HIXNY_PATIENT_API_URI)
+HIXNY_ACTIVATESTAGEDUSER_API_URI = "%s/ACTIVATESTAGEDUSER" % (
+    HIXNY_PATIENT_API_URI)
+HIXNY_CONSUMERDIRECTIVE_API_URI = "%s/CONSUMERDIRECTIVE" % (
+    HIXNY_PATIENT_API_URI)
+HIXNY_GETDOCUMENT_API_URI = "%s/GETDOCUMENT" % (HIXNY_PATIENT_API_URI)
+HIXNY_WORKBENCH_USERNAME = env('HIXNY_WORKBENCH_USERNAME', '')
+HIXNY_WORKBENCH_PASSWORD = env('HIXNY_WORKBENCH_PASSWORD', '')
+HIXNY_BASIC_AUTH_PASSWORD = env('HIXNY_BASIC_AUTH_PASSWORD', '')
