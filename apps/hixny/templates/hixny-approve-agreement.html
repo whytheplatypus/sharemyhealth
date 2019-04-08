@@ -13,20 +13,26 @@
         <div class="container-fluid">
                 <div class="col-md-12">
                     <div class="col-lg-12 well">
-                        <h2>Your Data in CDA format</h2>
+                        <h2>View and Download Your Data</h2>
+                        
+                        <a href="{% url 'get_cda_raw_test' %}">
+                            <button type="button" class="btn btn-default"> <i class="fa fa-download"></i> CDA Format</button></a>
+                        
+                            <a href="{% url 'get_cda_in_json_test' %}">
+                            <button type="button" class="btn btn-default"> <i class="fa fa-download"></i> CDA in JSON Wrapper Format</button></a>
                         
                         <p>
-                            {{response5.content}}
                             
-                        </p>
-                     
-                    </div>
-                        
                     </div>
                     <h2>Share it with XYX?</h2>
                          <a href="https://app.sharemy.health/share-with/bethesda-house">
-                            <button type="button" class="btn btn-primary"> <i class="fa fa-sign-in"></i> Share it with XYZ?</button></a>
+                            <button type="button" class="btn btn-primary"> <i class="fa fa-download"></i> Share it with XYZ?</button></a>
+                    </div>        
+                    </p>
+                     
                     </div>
+                        
+
 
                  
         
