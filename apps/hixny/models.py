@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from ..accounts.models import UserProfile
 # Copyright Videntity Systems Inc.
 __author__ = "Alan Viars"
 
@@ -15,14 +16,8 @@ class HIXNYProfile(models.Model):
         max_length=64, default='ActualCBOUser', blank=True)
     terms_accepted = models.TextField(default='', blank=True)
     terms_string = models.TextField(default='', blank=True)
-    step_1 = models.BooleanField(default=False, blank=True)
-    step_2 = models.BooleanField(default=False, blank=True)
-    step_3 = models.BooleanField(default=False, blank=True)
-    step_4 = models.BooleanField(default=False, blank=True)
-    step_5 = models.BooleanField(default=False, blank=True)
     user_accept = models.BooleanField(default=True, blank=True)
     cda_content = models.TextField(default='', blank=True)
-    cda_file = models.FileField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
@@ -37,3 +32,12 @@ class HIXNYProfile(models.Model):
         if self.user_accept is True:
             return '1'
         return '0'
+
+    @property
+    def subject(self):
+        up, g_or_c = UserProfile.objects.get_or_create(user=self.user)
+        return up.subject
+
+    @property
+    def terms_string_stripped(self):
+        return self.terms_string.strip('\\n').strip('\\t')

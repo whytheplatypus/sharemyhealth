@@ -7,7 +7,7 @@ __author__ = "Alan Viars"
 
 
 class HIXNYProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'mrn', 'cda_file')
+    list_display = ('user', 'subject', 'mrn',)
     search_fields = [
         'user__first_name',
         'user__last_name',
