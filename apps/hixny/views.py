@@ -7,7 +7,6 @@ from requests.auth import HTTPBasicAuth
 import xml.etree.ElementTree as ET
 from .models import HIXNYProfile
 from django.conf import settings
-from django.core.files.base import ContentFile
 
 # curl  https://integration.hixny.com:6443/ -k --user
 # password-client:20P@55230R419 -d
@@ -36,7 +35,6 @@ def get_authorization(request):
     access_token = response_json['access_token']
     access_token_bearer = "Bearer %s" % (access_token)
     # print("AT", access_token)
-    hp.step_1 = True
     hp.save()
     # oas = OAuth2Session(token=access_token)
     # userinfo = oas.get(userinfo_uri).json(object_pairs_hook=OrderedDict)
@@ -75,34 +73,31 @@ def get_authorization(request):
     f = ET.XML(response2.content)
 
     for element in f:
-        print("ELEMENT", element)
+        # print("ELEMENT", element)
         for e in element.getchildren():
             print(e)
             if e.tag == "{urn:hl7-org:v3}Status":
                 status = e.text
             if e.tag == "{urn:hl7-org:v3}Notice":
                 notice = e.text
-
             if e.tag == "{urn:hl7-org:v3}TERMSACCEPTED":
                 hp.terms_accepted = e.text
             if e.tag == "{http://www.intersystems.com/hs/portal/enrollment}TermsString":
-                hp.terms_string = e.text
+                hp.terms_string = e.text.replace('\n', '').replace('\t', '')
             if e.tag == "{urn:hl7-org:v3}StageUserPassword":
                 hp.stageuser_password = e.text
             if e.tag == "{urn:hl7-org:v3}StageUserToken":
                 hp.stageuser_token = e.text
         hp.save()
-        if hp.stageuser_password and hp.stageuser_token:
-            hp.step_2 = True
-            hp.save()
 
     # Send the terms accepted response...
 
     context = {"hp": hp,
-               "response1": r,
-               "response2": response2,
+               # "response1": r,
+               # "response2": response2,
                "status": status,
-               "notice": notice}
+               "notice": notice
+               }
 
     return render(request, 'hixny-user-agreement.html', context)
 
@@ -129,10 +124,7 @@ def approve_authorization(request):
     access_token = response_json['access_token']
     access_token_bearer = "Bearer %s" % (access_token)
     # print("AT", access_token)
-    hp.step_1 = True
     hp.save()
-    # oas = OAuth2Session(token=access_token)
-    # userinfo = oas.get(userinfo_uri).json(object_pairs_hook=OrderedDict)
 
     activate_xml = """
                 <ACTIVATESTAGEDUSERPAYLOAD>
@@ -145,7 +137,7 @@ def approve_authorization(request):
                        hp.stageuser_token,
                        hp.stageuser_password,
                        hp.consent_to_share_data)
-    print(activate_xml)
+    # print(activate_xml)
     response3 = requests.post(settings.HIXNY_ACTIVATESTAGEDUSER_API_URI,
                               verify=False,
                               headers={'Content-Type': 'application/xml',
@@ -154,12 +146,11 @@ def approve_authorization(request):
 
     f = ET.XML(response3.content)
     for element in f:
-        print("ELEMENT", element)
+        # print("ELEMENT", element)
         for e in element.getchildren():
             print(e)
             if e.tag == "{urn:hl7-org:v3}ActivatedUserMrn":
                 hp.mrn = e.text
-                hp.step_3 = True
                 hp.save()
 
     consumer_directive_xml = """
@@ -170,7 +161,7 @@ def approve_authorization(request):
         <CONSENTTOSHAREDATA>%s</CONSENTTOSHAREDATA>
         </CONSUMERDIRECTIVEPAYLOAD>
         """ % (hp.mrn,  up.birthdate_intersystems, hp.data_requestor, hp.consent_to_share_data)
-    print(consumer_directive_xml)
+    # print(consumer_directive_xml)
 
     response4 = requests.post(settings.HIXNY_CONSUMERDIRECTIVE_API_URI,
                               verify=False,
@@ -178,21 +169,20 @@ def approve_authorization(request):
                                        'Authorization': access_token_bearer},
                               data=consumer_directive_xml)
 
-    print("Consumer Directive response")
+    # print("Consumer Directive response")
     f = ET.XML(response4.content)
     for element in f:
-        print("ELEMENT", element)
+        # print("ELEMENT", element)
         if element.tag == "{urn:hl7-org:v3}Status":
             status = element.text
         if element.tag == "{urn:hl7-org:v3}Notice":
             notice = element.text
 
     response5 = None
-    print("STATUS", status, notice)
+    # print("STATUS", status, notice)
     if status == "OK":
-        hp.step_4 = True
         hp.save()
-        print(notice)
+        # print(notice)
         if notice in ("Document has been prepared.",
                       "Document already exists."):
 
@@ -213,10 +203,9 @@ def approve_authorization(request):
             f = ET.XML(response5.content)
             hp.cda_content = response5.content
             hp.save()
-            fn = "%s.xml" % (up.subject)
-            hp.cda_file.save(fn, ContentFile(response5.content))
-            hp.step_5 = True
-            hp.save()
+            # fn = "%s.xml" % (up.subject)
+            # hp.cda_file.save(fn, ContentFile(response5.content))
+            # hp.save()
 
     # Send the terms accepted response...
 
