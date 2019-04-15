@@ -16,7 +16,7 @@ class HIXNYProfile(models.Model):
         max_length=64, default='ActualCBOUser', blank=True)
     terms_accepted = models.TextField(default='', blank=True)
     terms_string = models.TextField(default='', blank=True)
-    user_accept = models.BooleanField(default=True, blank=True)
+    user_accept = models.BooleanField(default=False, blank=True)
     cda_content = models.TextField(default='', blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)

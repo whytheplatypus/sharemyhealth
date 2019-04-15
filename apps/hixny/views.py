@@ -7,6 +7,10 @@ from requests.auth import HTTPBasicAuth
 import xml.etree.ElementTree as ET
 from .models import HIXNYProfile
 from django.conf import settings
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # curl  https://integration.hixny.com:6443/ -k --user
 # password-client:20P@55230R419 -d
@@ -20,24 +24,30 @@ def get_authorization(request):
     hp, g_o_c = HIXNYProfile.objects.get_or_create(user=request.user)
     status = ""
     notice = ""
+    data = {
+        "grant_type": "password",
+        "username": settings.HIXNY_WORKBENCH_USERNAME,
+        "password": settings.HIXNY_WORKBENCH_PASSWORD,
+        "scope": "/PHRREGISTER"}
     r = requests.post(
         settings.HIXNY_TOKEN_API_URI,
-        data={
-            "grant_type": "password",
-            "username": settings.HIXNY_WORKBENCH_USERNAME,
-            "password": settings.HIXNY_WORKBENCH_PASSWORD,
-            "scope": "/PHRREGISTER"},
+        data=data,
         verify=False,
         auth=HTTPBasicAuth(
             'password-client',
             settings.HIXNY_BASIC_AUTH_PASSWORD))
+    print(data)
     response_json = r.json()
+    print(response_json)
+    if 'access_token' not in response_json:
+        messages.error(
+            request, _("We're sorry. We could not connect to HIXNY. Please try again later."))
+        return HttpResponseRedirect(reverse('home'))
+
     access_token = response_json['access_token']
     access_token_bearer = "Bearer %s" % (access_token)
     # print("AT", access_token)
     hp.save()
-    # oas = OAuth2Session(token=access_token)
-    # userinfo = oas.get(userinfo_uri).json(object_pairs_hook=OrderedDict)
 
     patient_search_xml = """
                         <PatientSearchPayLoad>
@@ -69,11 +79,13 @@ def get_authorization(request):
                                        'Authorization': access_token_bearer},
                               data=patient_search_xml
                               )
-
+    print(response2.content)
     f = ET.XML(response2.content)
-
+    error_message = ""
     for element in f:
-        # print("ELEMENT", element)
+        print("ELEMENT", element)
+        if element.tag == "{urn:hl7-org:v3}Notice":
+            error_message = element.text
         for e in element.getchildren():
             print(e)
             if e.tag == "{urn:hl7-org:v3}Status":
@@ -88,7 +100,12 @@ def get_authorization(request):
                 hp.stageuser_password = e.text
             if e.tag == "{urn:hl7-org:v3}StageUserToken":
                 hp.stageuser_token = e.text
+
         hp.save()
+    if error_message:
+        error_message = "HIXNY Responded: %s" % (error_message)
+        messages.error(request, error_message)
+        return HttpResponseRedirect(reverse('home'))
 
     # Send the terms accepted response...
 
