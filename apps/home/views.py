@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from jwkest.jwt import JWT
+from ..hixny.models import HIXNYProfile
+from django.contrib import messages
+from django.conf import settings
 
 _author_ = "Alan Viars"
 
 
 def authenticated_home(request):
+    name = _('Authenticated Home')
     if request.user.is_authenticated:
 
+        # Get the ID Token and parse it.
         try:
             vmi = request.user.social_auth.filter(
                 provider='verifymyidentity-openidconnect')[0]
@@ -19,9 +24,26 @@ def authenticated_home(request):
 
         except Exception:
             id_token = "No ID token."
-            parsed_id_token = "No ID token."
+            parsed_id_token = {'sub': '', 'ial': '1'}
 
-        name = _('Authenticated Home')
+        print
+        if parsed_id_token.get('ial') not in ('2', '3'):
+            # redirect to get verified
+            messages.warning(request, 'Your identity has not been verified. \
+                             This must be completed prior to access to personal health information.')
+
+            if settings.HIXNY_WORKBENCH_USERNAME:
+                hp, g_o_c = HIXNYProfile.objects.get_or_create(
+                    user=request.user)
+
+                if hp.user_accept is False:
+                    messages.warning(
+                        request, 'Your account is not yet connected to HIXNY personal health information.')
+
+                if hp.cda_content:
+                    messages.success(
+                        request, 'Your account is already linked to your HIXNY personal health information.')
+
         try:
             profile = request.user.userprofile
         except Exception:

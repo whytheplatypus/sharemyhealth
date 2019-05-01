@@ -104,8 +104,19 @@ class UserProfile(models.Model):
         return self.gender
 
     @property
+    def gender_intersystems(self):
+        if self.gender == 'male':
+            return 'M'
+        if self.gender == 'female':
+            return 'F'
+
+    @property
     def birthdate(self):
         return self.birth_date
+
+    @property
+    def birthdate_intersystems(self):
+        return str(self.birth_date).replace('-', '')
 
     @property
     def name(self):
